@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 	u "go-petshop/internal/models/usuario"
 	"go-petshop/internal/repositories"
 )
@@ -15,14 +16,19 @@ func NewUsuarioService(repository repositories.UsuarioRepository) UsuarioService
 }
 
 func (s UsuarioService) Create(ctx context.Context, entity *u.Usuario) (u.Usuario, error) {
-	usuario, err := s.repository.Create(ctx, entity)
-
 	if !entity.Ativo {
 		entity.Ativo = true
 	}
 
+	err := entity.EncryptPassword()
 	if err != nil {
-		return u.Usuario{}, err
+		return u.Usuario{}, fmt.Errorf("erro ao encriptar senha: %w", err)
+	}
+
+	usuario, err := s.repository.Create(ctx, entity)
+
+	if err != nil {
+		return u.Usuario{}, fmt.Errorf("erro ao criar usuário: %w", err)
 	}
 
 	entity.Id = usuario.Id

@@ -1,6 +1,7 @@
 package usuario
 
 import (
+	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
@@ -16,4 +17,13 @@ type Usuario struct {
 	UltimoLogin *time.Time  `json:"ultimoLogin"`
 	CreatedAt   *time.Time  `json:"createdAt"`
 	UpdatedAt   *time.Time  `json:"updatedAt"`
+}
+
+func (u *Usuario) EncryptPassword() error {
+	hash, err := bcrypt.GenerateFromPassword([]byte(u.Senha), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	u.Senha = string(hash)
+	return nil
 }
