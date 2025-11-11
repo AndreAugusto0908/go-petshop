@@ -1,8 +1,9 @@
 package usuario
 
 import (
-	"golang.org/x/crypto/bcrypt"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Usuario struct {
@@ -26,4 +27,8 @@ func (u *Usuario) EncryptPassword() error {
 	}
 	u.Senha = string(hash)
 	return nil
+}
+
+func (u *Usuario) VerifyPassword(senhaParaVerificar string) error {
+	return bcrypt.CompareHashAndPassword([]byte(u.Senha), []byte(senhaParaVerificar))
 }

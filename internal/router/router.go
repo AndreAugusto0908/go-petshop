@@ -10,11 +10,13 @@ import (
 
 type Router struct {
 	UsuarioController *controllers.UsuarioController
+	AuthController    *controllers.AuthController
 }
 
-func NewRouter(usuarioController *controllers.UsuarioController) *Router {
+func NewRouter(usuarioController *controllers.UsuarioController, authControler *controllers.AuthController) *Router {
 	return &Router{
 		UsuarioController: usuarioController,
+		AuthController:    authControler,
 	}
 }
 
@@ -32,6 +34,7 @@ func (router *Router) Setup() *chi.Mux {
 
 	r.Route("/api", func(r chi.Router) {
 		setupUsuarioRoutes(r, router.UsuarioController)
+		setupAuthRoutes(r, router.AuthController)
 	})
 	return r
 }

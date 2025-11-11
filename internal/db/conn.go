@@ -14,7 +14,7 @@ import (
 func ConnectDB() (*sql.DB, error) {
 	err := godotenv.Load(filepath.Join("..", ".env"))
 	if err != nil {
-		log.Println("⚠️  Arquivo .env não encontrado, usando variáveis de ambiente do sistema")
+		log.Println("Arquivo .env não encontrado, usando variáveis de ambiente do sistema")
 	}
 
 	host := os.Getenv("DB_HOST")

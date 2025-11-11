@@ -54,6 +54,31 @@ func (r UsuarioRepository) Create(ctx context.Context, entity *u.Usuario) (*u.Us
 
 }
 
+func (r UsuarioRepository) FindByEmail(ctx context.Context, email string) (*u.Usuario, error) {
+	query := `SELECT * FROM usuarios WHERE email = $1`
+
+	user := &u.Usuario{}
+
+	err := r.db.QueryRowContext(ctx, query, email).Scan(
+		&user.Id,
+		&user.Nome,
+		&user.Email,
+		&user.Senha,
+		&user.Tipo,
+		&user.CRMV,
+		&user.Telefone,
+		&user.Ativo,
+		&user.UltimoLogin,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
 func (r UsuarioRepository) FindAll(ctx context.Context) ([]*u.Usuario, error) {
 	//TODO implement me
 	panic("implement me")

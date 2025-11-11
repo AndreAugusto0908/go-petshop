@@ -16,6 +16,7 @@ func NewUsuarioService(repository repositories.UsuarioRepository) UsuarioService
 }
 
 func (s UsuarioService) Create(ctx context.Context, entity *u.Usuario) (u.Usuario, error) {
+
 	if !entity.Ativo {
 		entity.Ativo = true
 	}
