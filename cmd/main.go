@@ -39,7 +39,10 @@ func main() {
 	usuarioService := services.NewUsuarioService(usuarioRepo)
 	usuarioController := controllers.NewUsuarioController(usuarioService)
 
-	router := router.NewRouter(&usuarioController)
+	authService := services.NewAuthService(usuarioRepo)
+	authController := controllers.NewAuthController(authService)
+
+	router := router.NewRouter(&usuarioController, &authController)
 	r := router.Setup()
 
 	fmt.Println("✅ Banco de dados conectado")
